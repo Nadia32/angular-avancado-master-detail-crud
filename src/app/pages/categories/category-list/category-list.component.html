@@ -27,7 +27,7 @@
             <th>Ações</th>
         </tr>
     </thead>
-    <tbory>
+    <tbody>
         <tr *ngFor="let category of categories">
             <td>
                 <strong>Lazer</strong>
@@ -35,8 +35,8 @@
             </td>
             <td>
                 <a [routerLink]="[category.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-                <button (click)="deleteCtegory('category')" class="btn btn-outline-danger btn-sm">Excluir</button>
+                <button (click)="deleteCategory('category')" class="btn btn-outline-danger btn-sm">Excluir</button>
              </td>
         </tr>
-    </tbory>
+    </tbody>
 </table>
