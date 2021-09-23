@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-
 import { Observable, throwError } from "rxjs";
 import { map, catchError, flatMap } from "rxjs/operators";
-
-import { Category } from "./category.model";
+import { Category } from './category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,29 +20,32 @@ export class CategoryService {
     )
   }
 
-  getbyId(id: number): Observable<Category>{
+  getById(id: number): Observable<Category> {
     const url = `${this.apiPath}/${id}`;
 
     return this.http.get(url).pipe(
       catchError(this.handleError),
-      map(this.jsonDataToCategory)
+      map(this.jsonDataToCategorie)
     )
   }
-  create(category: Category): Observable<Category>{
+
+  create(category: Category): Observable<Category> {
     return this.http.post(this.apiPath, category).pipe(
       catchError(this.handleError),
-      map(this.jsonDataToCategory)
+      map(this.jsonDataToCategorie)
     )
   }
+
   update(category: Category): Observable<Category> {
-    const url = `${this.apiPath}/${category}`;
-    return this.http.get(url).pipe(
+    const url = `${this.apiPath}/${category.id}`;
+
+    return this.http.put(url, category).pipe(
       catchError(this.handleError),
       map(() => category)
     )
   }
 
-  delete(id: number): Observable<any>{
+  delete(id: number): Observable<any> {
     const url = `${this.apiPath}/${id}`;
 
     return this.http.delete(url).pipe(
@@ -52,7 +53,8 @@ export class CategoryService {
       map(() => null)
     )
   }
-  //PRIVATE METHODS
+
+  //private methods
 
   private jsonDataToCategories(jsonData: any[]): Category[] {
     const categories: Category[] = [];
@@ -60,12 +62,12 @@ export class CategoryService {
     return categories;
   }
 
-  private jsonDataToCategory(jsonData: any): Category {
+  private jsonDataToCategorie(jsonData: any): Category {
     return jsonData as Category;
   }
 
-  private handleError(error: any): Observable<any>{
-    console.log("ERRO NA REQUISIÇÃO => ", error);
+  private handleError(error: any): Observable<any> {
+    console.log("~ CategoryService ~ handleError ~ error", error)
     return throwError(error);
   }
 }
