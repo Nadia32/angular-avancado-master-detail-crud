@@ -18,7 +18,6 @@ export class EntryListComponent implements OnInit {
     this.entryService.getAll().subscribe(
       entries => this.entries = entries,
       error => alert('Erro ao carregar a lista')
-      
     )
   }
 

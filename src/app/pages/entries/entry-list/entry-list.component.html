@@ -37,7 +37,7 @@
                 <small *ngIf="entry.description">{{entry.description}}</small>
             </td>
             <td>
-                {{entry.category.name}}
+                {{entry.name}}
             </td>
             <td class="text-right">
                 <strong [class.text-success]="entry.type == 'revenue'" [class.text-danger]="entry.type == 'expense'">{{entry.amount}}</strong>
@@ -46,7 +46,7 @@
             </td>
             <td class="text-center">
                 <a [routerLink]="[entry.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-                <button (click)="deleteCategory(entry)" class="btn btn-outline-danger btn-sm">Excluir</button>
+                <button (click)="deleteEntry(entry)" class="btn btn-outline-danger btn-sm">Excluir</button>
             </td>
         </tr>
     </tbody>
