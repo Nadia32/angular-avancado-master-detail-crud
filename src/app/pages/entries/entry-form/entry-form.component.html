@@ -9,10 +9,10 @@
 <div class="row mb-4">
     <div class="col-md-9">
         <h1 class="h2 border-left pl-2">
-            Formulário de categoria
+            {{pageTitle}}
         </h1>
     </div>
-    <div class="col-md">
+    <div class="col-md-3">
        <a routerLink="/entries" class="btn btn-light float-right">
             << Voltar 
        </a>
@@ -22,12 +22,27 @@
 
  <form [formGroup]="entryForm" (submit)="submitForm()">
      <div class="card">
-         <div class="card-header">Informações sobre o Lançamento</div>
+        <div class="card-header">
+            Informações sobre o Lançamento
+        </div>
 
         <div class="card-body">
             <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label form = "name">Nome</label>
+                <!-- type -->
+                <div class="form-group col-md-2">
+                    <label form = "type">Tipo</label>
+
+                    <select name="type" id="type" formControlName="type" class="form-control">
+                        <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.text }}</option>
+                    </select>
+                
+                    <div class="test-danger" *ngIf="entryForm.controls.type.invalid && entryForm.controls.type.touched" >
+                        <div *ngIf="entryForm.controls.type.errors?.required" >dado obrigatório</div>
+                    </div> 
+                </div>
+                <!-- name -->
+                <div class="form-group col-md-5">
+                    <label form = "name">Lançamento</label>
                     <input type="text" class="form-control" id="name" formControlName = "name">
         
                     <div class="test-danger" *ngIf="entryForm.controls.name.invalid && entryForm.controls.name.touched" >
@@ -35,22 +50,84 @@
                         <div *ngIf="entryForm.controls.name.errors?.minlength" >deve ter no mínimo 2 caracteres</div>
                     </div> 
                 </div>
-                <div class="form-group col-md-8">
+                <!-- amount -->
+                <div class="form-group col-md-3">
+                    <label form = "amount">Valor</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"> R$ </div>
+                        </div>
+                        <input [imask]="imaskConfig" type="text" class="form-control text-right" id="amount" formControlName = "amount">
+                    </div>
+                    <div class="test-danger" *ngIf="entryForm.controls.amount.invalid && entryForm.controls.amount.touched" >
+                        <div *ngIf="entryForm.controls.amount.errors?.required" >dado obrigatório</div>
+                    </div> 
+                </div>
+                <!-- date -->
+                <div class="form-group col-md-2">
+                    <label form = "date">Data</label>
+                    <p-calendar
+                        id="date"
+                        formControlName="date"
+                        inputStyleClass="form-control"
+                        dataType="string"
+                        dateFormat="dd/mm/yy"
+                        [locale]="ptBR"
+                        [showButtonBar]="true">
+                    </p-calendar>
+                    
+                    <div class="test-danger" *ngIf="entryForm.controls.date.invalid && entryForm.controls.date.touched" >
+                        <div *ngIf="entryForm.controls.date.errors?.required" >dado obrigatório</div>
+                    </div> 
+                </div>
+                
+                <div class="form-row">
+                    <!-- paid -->
+                <div class="form-group col-md-1">
+                    <select class="custom-select">
+                        <option value="true">Pago</option>
+                        <option value="false">Pendente</option>
+                      </select>
+                    
+                        <div class="test-danger" *ngIf="entryForm.controls.paid.invalid && entryForm.controls.paid.touched" >
+                            <div *ngIf="entryForm.controls.paid.errors?.required" >dado obrigatório</div>
+                        </div>
+                    </div>
+
+                <!-- categoryId -->
+                <div class="form-group col-md-3">
+                    <label form = "categoryId">Tipo</label>
+
+                    <select name="categoryId" id="categoryId" formControlName="categoryId" class="form-control">
+                        <option value="1">Categoria 1</option>
+                        <option value="2">Categoria 2</option>
+                    </select>
+                
+                    <div class="test-danger" *ngIf="entryForm.controls.categoryId.invalid && entryForm.controls.categoryId.touched" >
+                        <div *ngIf="entryForm.controls.categoryId.errors?.required" >dado obrigatório</div>
+                    </div> 
+                </div>
+
+                    <!--description-->
+                <div class="form-group col-md-7">
                     <label for="description">Descrição</label>
                     <input type="text" class="form-control" id="description" formControlName = "description">
                  </div>
             </div>
         </div>
      </div>
-     <div class="alert alert-danger mt-4" >
+     
+     <div class="alert alert-danger mt-4" **ngIf="serveErrorMenssages" >
         <strong>Erro no servidor:</strong>
         <ul>
-            <li></li>
+            <li **ngIf="let error of serverErrorMessages" >{{error}}</li>
         </ul>
     </div>
-
-    <button [disabled]="submittingForm || entryForm.invalid" type="submit" class="btn btn-primary btn-lg float-right">
+</div>
+    <button [disabled]="submittingForm || entryForm.invalid" type="submit" class="btn btn-primary btn-lg float-right mt-3">
         Salvar
     </button>
  </form>
+
+ <pre>{{entryForm.value | json}}</pre>
   

@@ -23,11 +23,33 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   pageTitle: string = "";
   serverErrorMessages: string[] = [];
   idEntry: number = 0;
+  imaskConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSparator: '',
+    padFractonalZeros: true,
+    normalizeZeros: true,
+    radix: ','
+    };
+    ptBR = {
+      firstDayOfWeek: 0,
+      dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+      monthNames: [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+        'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ],
+      monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      today: 'Hoje',
+      clear: 'Limpar'
+    };
+
   entryForm: FormGroup = this.formBuilder.group({
     id: [null],
     name: [null, [Validators.required, Validators.minLength(2)]],
     description: [null]
-  });;
+  });
 
   constructor(
     private entryService: EntryService,
@@ -57,6 +79,17 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     else // currentAction == "edit"
       this.updateEntry();
   }
+  
+  get typeOptions(): Array<any>{
+    return Object.entries(Entry.types).map(
+      ([value, text]) => {
+        return {
+          text: text,
+          value: value
+        }
+      }
+    )
+  }
 
   /****** PRIVATE METHODS *******/
 
@@ -76,7 +109,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       amount: [null,[Validators.required]],
       date: [null,[Validators.required]],
       paid: [null,[Validators.required]],
-      categoryId: [null,[Validators.required]]
+      categoryId: [null, [Validators.required]]
     });
   }
 

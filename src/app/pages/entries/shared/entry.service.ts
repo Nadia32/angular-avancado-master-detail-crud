@@ -38,12 +38,12 @@ export class EntryService {
     )
   }
 
-  update(entry: Entry): Observable<Entry> {
-    const url = `${this.apiPath}/${entry.id}`;
+  update(category: Entry): Observable<Entry> {
+    const url = `${this.apiPath}/${category.id}`;
 
-    return this.http.put(url, entry).pipe(
+    return this.http.put(url, category).pipe(
       catchError(this.handleError),
-      map(() => entry)
+      map(() => category)
     )
   }
 
@@ -59,9 +59,9 @@ export class EntryService {
   //private methods
 
   private jsonDataToCategories(jsonData: any[]): Entry[] {
-    const entries: Entry[] = [];
-    jsonData.forEach(element => entries.push(element as Entry));
-    return entries;
+    const categories: Entry[] = [];
+    jsonData.forEach(element => categories.push(element as Entry));
+    return categories;
   }
 
   private jsonDataToCategorie(jsonData: any): Entry {
@@ -69,7 +69,7 @@ export class EntryService {
   }
 
   private handleError(error: any): Observable<any> {
-    console.log("~ EntryService ~ handleError ~ error", error)
+    console.log("~ CategoryService ~ handleError ~ error", error)
     return throwError(error);
   }
 }
