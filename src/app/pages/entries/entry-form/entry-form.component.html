@@ -65,7 +65,7 @@
                 </div>
                 <!-- date -->
                 <div class="form-group col-md-2">
-                    <label form = "date">Data</label>
+                    <label form = "date">Data</label> <br />
                     <p-calendar
                         id="date"
                         formControlName="date"
@@ -80,19 +80,24 @@
                         <div *ngIf="entryForm.controls.date.errors?.required" >dado obrigatório</div>
                     </div> 
                 </div>
-                
-                <div class="form-row">
-                    <!-- paid -->
+            </div>
+            <div class="form-row">
+                <!-- paid -->
                 <div class="form-group col-md-1">
-                    <select class="custom-select">
-                        <option value="true">Pago</option>
-                        <option value="false">Pendente</option>
-                      </select>
-                    
-                        <div class="test-danger" *ngIf="entryForm.controls.paid.invalid && entryForm.controls.paid.touched" >
-                            <div *ngIf="entryForm.controls.paid.errors?.required" >dado obrigatório</div>
-                        </div>
+                    <label for="paid">Pago</label> <br />
+                    <div class="btn-group">
+                        <label (click)="entryForm.controls.paid.setValue(true)" [class.active]="entryForm.controls.paid.value == true" class="btn btn-outline-info">
+                        Pago
+                        </label>
+                        <label (click)="entryForm.controls.paid.setValue(false)" [class.active]="entryForm.controls.paid.value == false" class="btn btn-outline-info">
+                        Pendente
+                        </label>
                     </div>
+                    
+                    <div class="test-danger" *ngIf="entryForm.controls.paid.invalid && entryForm.controls.paid.touched" >
+                        <div *ngIf="entryForm.controls.paid.errors?.required" >dado obrigatório</div>
+                    </div>
+                </div>
 
                 <!-- categoryId -->
                 <div class="form-group col-md-3">
@@ -112,7 +117,7 @@
                 <div class="form-group col-md-7">
                     <label for="description">Descrição</label>
                     <input type="text" class="form-control" id="description" formControlName = "description">
-                 </div>
+                </div>
             </div>
         </div>
      </div>
@@ -123,7 +128,6 @@
             <li **ngIf="let error of serverErrorMessages" >{{error}}</li>
         </ul>
     </div>
-</div>
     <button [disabled]="submittingForm || entryForm.invalid" type="submit" class="btn btn-primary btn-lg float-right mt-3">
         Salvar
     </button>
